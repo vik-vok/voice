@@ -1,7 +1,7 @@
 import json
 
 
-def voice_handler(request):
+def original_voice_handler(request):
     result = True
 
     # convert into JSON:
