@@ -1,7 +1,5 @@
-configs:
-  - docker: &docker 'docker.io/library/python:3.7'
 steps:
-  - name: *docker
+  - name: &docker 'docker.io/library/python:3.7'
     entrypoint: /bin/sh
     args: [-c, 'pip install -r requirements.txt', '&&', 'pytest']
     dir: 'functions/recorded/all'
