@@ -11,7 +11,7 @@ steps:
     dir: 'functions/recorded/all'
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['functions', 'deploy', 'recorded-voice-get-all', *runtime, '--runtime='*trigger, '--entry-point=recorded_voice_get_all']
-    dir: *rootRec 'all'
+    dir: !concat [*rootRec, 'all']
 
 #  - name: *docker
 #    entrypoint: /bin/sh
