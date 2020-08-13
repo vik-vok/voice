@@ -4,7 +4,7 @@ steps:
     args: [-c, 'pip install -r requirements.txt', '&&', 'pytest']
     dir: 'functions/recorded/all'
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['functions', 'deploy', 'recorded-voice-get-all', &trigger '--trigger-http' '--runtime', &runtime 'python37', '--entry-point=recorded_voice_get_all']
+    args: ['functions', 'deploy', 'recorded-voice-get-all', '--trigger-http' '--runtime', 'python37', '--entry-point=recorded_voice_get_all']
     dir: !concat [&rootRec 'functions/recorded/', 'all']
 
 #  - name: *docker
