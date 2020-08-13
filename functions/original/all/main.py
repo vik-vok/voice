@@ -1,7 +1,7 @@
 import json
 
 
-def voice_handler(request):
+def original_voices_handler(request):
     voice1 = {
         "title": "voice1",
         "description": "desc1",
