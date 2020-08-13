@@ -1,8 +1,30 @@
 steps:
-  - name: 'docker.io/library/python:3.7'
+  - config:
+      docker: &docker 'docker.io/library/python:3.7'
+      runtime: &runtime '--trigger-http'
+      trigger: &trigger 'docker.io/library/python:3.7'
+      rootRec: &rootRec 'functions/recorded/'
+
+  - name: *docker
     entrypoint: /bin/sh
     args: [-c, 'pip install -r requirements.txt', '&&', 'pytest']
     dir: 'functions/recorded/all'
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['functions', 'deploy', 'recorded-voice-get-all', '--trigger-http', '--runtime=python37', '--entry-point=recorded_voice_get_all']
-    dir: 'functions/recorded/all'
+    args: ['functions', 'deploy', 'recorded-voice-get-all', *runtime, '--runtime='*trigger, '--entry-point=recorded_voice_get_all']
+    dir: *rootRec 'all'
+
+#  - name: *docker
+#    entrypoint: /bin/sh
+#    args: [-c, 'pip install -r requirements.txt', '&&', 'pytest']
+#    dir: 'functions/recorded/all'
+#  - name: 'gcr.io/cloud-builders/gcloud'
+#    args: ['functions', 'deploy', 'recorded-voice-get-all', *runtime, '--runtime='*trigger, '--entry-point=recorded_voice_get_all']
+#    dir: 'functions/recorded/all'
+#
+#  - name: *docker
+#    entrypoint: /bin/sh
+#    args: [-c, 'pip install -r requirements.txt', '&&', 'pytest']
+#    dir: 'functions/recorded/all'
+#  - name: 'gcr.io/cloud-builders/gcloud'
+#    args: ['functions', 'deploy', 'recorded-voice-get-all', *runtime, '--runtime='*runtime, '--entry-point=recorded_voice_get_all']
+#    dir: 'functions/recorded/all'
