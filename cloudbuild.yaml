@@ -1,9 +1,9 @@
 steps:
-  - config:
-      docker: &docker 'docker.io/library/python:3.7'
-      runtime: &trigger '--trigger-http'
-      trigger: &runtime 'python37'
-      rootRec: &rootRec 'functions/recorded/'
+  -
+    docker: &docker 'docker.io/library/python:3.7'
+    runtime: &trigger '--trigger-http'
+    trigger: &runtime 'python37'
+    rootRec: &rootRec 'functions/recorded/'
   - name: *docker
     entrypoint: /bin/sh
     args: [-c, 'pip install -r requirements.txt', '&&', 'pytest']
