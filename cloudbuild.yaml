@@ -1,8 +1,8 @@
 steps:
   - config:
       docker: &docker 'docker.io/library/python:3.7'
-      runtime: &runtime '--trigger-http'
-      trigger: &trigger 'docker.io/library/python:3.7'
+      runtime: &trigger '--trigger-http'
+      trigger: &runtime 'python37'
       rootRec: &rootRec 'functions/recorded/'
 
   - name: *docker
@@ -10,7 +10,7 @@ steps:
     args: [-c, 'pip install -r requirements.txt', '&&', 'pytest']
     dir: 'functions/recorded/all'
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['functions', 'deploy', 'recorded-voice-get-all', *runtime, '--runtime='*trigger, '--entry-point=recorded_voice_get_all']
+    args: ['functions', 'deploy', 'recorded-voice-get-all', *trigger, '--runtime='*runtime, '--entry-point=recorded_voice_get_all']
     dir: !concat [*rootRec, 'all']
 
 #  - name: *docker
