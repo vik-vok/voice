@@ -1,0 +1,8 @@
+steps:
+  - name: 'docker.io/library/python:3.7'
+    entrypoint: /bin/sh
+    args: [-c, 'pip install -r requirements.txt', '&&', 'pytest']
+    dir: 'functions/recorded/all'
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['functions', 'deploy', 'recorded-voice-get-all', '[YOUR_FUNCTION_TRIGGER]', '--runtime', 'python37', '--entry-point', 'recorded_voice_get_all']
+    dir: 'functions/recorded/all'
