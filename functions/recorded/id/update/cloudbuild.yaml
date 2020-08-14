@@ -1,9 +1,0 @@
-steps:
-  # RecordedVoice (id/Update)
-  - name: 'docker.io/library/python:3.7'
-    entrypoint: /bin/sh
-    args: [-c, 'pip install -r requirements.txt', '&&', 'pytest']
-    dir: 'functions/recorded/id/get'
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['functions', 'deploy', 'recorded-voice-update', '--trigger-http', '--runtime=python37', '--entry-point=recorded_voice_update']
-    dir: 'functions/recorded/id/update'
