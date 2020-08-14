@@ -4,10 +4,10 @@ REPO_OWNER="vik-vok"
 
 # cloud-func-name | py_func_name | dir
 array=(
-  'voice-original-get-all':'original_voices_handler':'functions/original/all'
-  'voice-original-create':'original_voice_register':'functions/original/create'
-  'voice-original-delete':'original_voice_handler':'functions/original/id/delete'
-  'voice-original-get':'original_voice_handler':'functions/original/id/get'
+  'voice-original-get-all':'original_voice_get_all':'functions/original/all'
+  'voice-original-create':'original_voice_create':'functions/original/create'
+  'voice-original-delete':'original_voice_delete':'functions/original/id/delete'
+  'voice-original-get':'original_voice_get':'functions/original/id/get'
   'voice-original-update':'original_voice_update':'functions/original/id/update'
 
   'voice-recorded-get-all':'recorded_voice_get_all':'functions/recorded/all'
@@ -26,11 +26,11 @@ for i in "${array[@]}"; do
   TRIGGER_NAME="${CLOUD_FUNC_NAME}-trigger"
   echo "#### Generating Trigger ${TRIGGER_NAME}"
 
-#  gcloud alpha builds triggers delete "${TRIGGER_NAME}" --quiet
+  gcloud alpha builds triggers delete "${TRIGGER_NAME}" --quiet
   gcloud beta builds triggers create github \
     --repo-name="${REPO_NAME}" \
     --repo-owner="${REPO_OWNER}" \
-    --included-files="${PY_FUNC_NAME}.py" \
+    --included-files="${DIR}/${PY_FUNC_NAME}.py" \
     --name="${TRIGGER_NAME}" \
     --branch-pattern="^master$" \
     --build-config=${BUILD_CONF} \
