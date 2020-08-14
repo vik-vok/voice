@@ -10,5 +10,4 @@ def recorded_voice_comments(request):
     }]
 
     # convert into JSON:
-    # test
     return json.dumps(result)
