@@ -26,7 +26,7 @@ for i in "${array[@]}"; do
   TRIGGER_NAME="${CLOUD_FUNC_NAME}-trigger"
   echo "#### Generating Trigger ${TRIGGER_NAME}"
 
-  gcloud alpha builds triggers delete "${TRIGGER_NAME}" --quiet
+#  gcloud alpha builds triggers delete "${TRIGGER_NAME}" --quiet
   gcloud beta builds triggers create github \
     --repo-name="${REPO_NAME}" \
     --repo-owner="${REPO_OWNER}" \
