@@ -1,7 +1,7 @@
 steps:
 
   # OriginalVoice (id/voices)
-  - name: *docker
+  - name: &docker 'docker.io/library/python:3.7'
     entrypoint: /bin/sh
     args: [-c, 'pip install -r requirements.txt', '&&', 'pytest']
     dir: 'functions/original/id/recordedvoices/get'
