@@ -1,4 +1,15 @@
 steps:
+
+  # OriginalVoice (id/voices)
+  - name: *docker
+    entrypoint: /bin/sh
+    args: [-c, 'pip install -r requirements.txt', '&&', 'pytest']
+    dir: 'functions/original/id/recordedvoices/get'
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['functions', 'deploy', 'original-voice-voices', '--trigger-http', '--runtime=python37', '--entry-point=original_voice_voices']
+    dir: 'functions/original/id/recordedvoices/get'
+
+
   # # RecordedVoice (Create)
   # - name: &docker 'docker.io/library/python:3.7'
   #   entrypoint: /bin/sh
@@ -101,10 +112,10 @@ steps:
   #   dir: 'functions/original/id/comments/get'
 
   # OriginalVoice (id/voices)
-  - name: *docker
-    entrypoint: /bin/sh
-    args: [-c, 'pip install -r requirements.txt', '&&', 'pytest']
-    dir: 'functions/original/id/recordedvoices/get'
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['functions', 'deploy', 'original-voice-voices', '--trigger-http', '--runtime=python37', '--entry-point=original_voice_voices']
-    dir: 'functions/original/id/recordedvoices/get'
+  # - name: *docker
+  #   entrypoint: /bin/sh
+  #   args: [-c, 'pip install -r requirements.txt', '&&', 'pytest']
+  #   dir: 'functions/original/id/recordedvoices/get'
+  # - name: 'gcr.io/cloud-builders/gcloud'
+  #   args: ['functions', 'deploy', 'original-voice-voices', '--trigger-http', '--runtime=python37', '--entry-point=original_voice_voices']
+  #   dir: 'functions/original/id/recordedvoices/get'
