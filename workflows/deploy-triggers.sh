@@ -30,7 +30,7 @@ for i in "${array[@]}"; do
   gcloud beta builds triggers create github \
     --repo-name="${REPO_NAME}" \
     --repo-owner="${REPO_OWNER}" \
-    --included-files="${DIR}/${PY_FUNC_NAME}.py" \
+    --included-files="${DIR}/*" \
     --name="${TRIGGER_NAME}" \
     --branch-pattern="^master$" \
     --build-config=${BUILD_CONF} \
