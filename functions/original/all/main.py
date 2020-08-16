@@ -6,4 +6,4 @@ datastore_client = datastore.Client('speech-similarity')
 
 def original_voice_get_all(request):
     query = datastore_client.query(kind='OriginalVoice')
-    return json.dump(list(query.fetch()))
+    return json.dumps(list(query.fetch()))
