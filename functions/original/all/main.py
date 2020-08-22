@@ -5,7 +5,10 @@ datastore_client = datastore.Client('speech-similarity')
 
 
 def original_voice_get_all(request):
-    query = datastore_client.query(kind='OriginalVoice')
+    query = datastore_client.getAll(kind='OriginalVoice')
     results = list(query.fetch())
 
-    return json.dumps(results)
+    query.keys_only()
+    kinds = [entity.key.id_or_name for entity in query.fetch()]
+
+    return json.dumps(kinds)
