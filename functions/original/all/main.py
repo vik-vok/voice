@@ -14,4 +14,6 @@ def original_voice_get_all(request):
     for i in range(len(results)):
         entity = results[i]
         entity['id'] = keys[i].id
+
+    results = sorted(results, key=lambda voice: voice.get('views', 0))
     return json.dumps(results)
