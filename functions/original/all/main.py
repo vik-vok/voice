@@ -9,7 +9,7 @@ def original_voice_get_all(request):
     results = list(query.fetch())
 
     query.keys_only()
-    keys = query.fetch()
+    keys = list(query.fetch())
 
     for i in range(len(results)):
         entity = results[i]
