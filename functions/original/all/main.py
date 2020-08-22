@@ -10,6 +10,6 @@ def original_voice_get_all(request):
 
     query = datastore_client.query(kind='OriginalVoice')
     query.keys_only()
-    kinds = [entity for entity in query.fetch()]
+    kinds = [entity.key for entity in query.fetch()]
 
     return json.dumps(kinds)
