@@ -13,5 +13,5 @@ def original_voice_get_all(request):
 
     for i in range(len(results)):
         entity = results[i]
-        entity['id'] = keys[i].id.id_or_name
+        entity['id'] = keys[i].id
     return json.dumps(results)
