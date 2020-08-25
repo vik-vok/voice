@@ -12,10 +12,10 @@ def original_voice_create(request):
 
     request_json = request.get_json(silent=True)
     filename = request_json['name']
-    wav_file = request.files['audio_data']
-    bucket = storage_client.get_bucket(RESULT_BUCKET)
-    blob = bucket.blob()
-    blob.upload_from_file(wav_file)
+    # wav_file = request.files['audio_data']
+    # bucket = storage_client.get_bucket(RESULT_BUCKET)
+    # blob = bucket.blob()
+    # blob.upload_from_file(wav_file)
 
     request_json['voiceUrl'] = 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename)
 
