@@ -1,37 +1,37 @@
 import json
 
-from google.cloud import datastore
-from google.cloud import storage
-from google.cloud import pubsub_v1
+# from google.cloud import datastore
+# from google.cloud import storage
+# from google.cloud import pubsub_v1
 
-project_id = 'speech-similarity'
-RESULT_BUCKET = "recorded-voices"
-COMPARE_TOPIC = "compare-topic"
+# project_id = 'speech-similarity'
+# RESULT_BUCKET = "recorded-voices"
+# COMPARE_TOPIC = "compare-topic"
 
-storage_client = storage.Client(project_id)
+# storage_client = storage.Client(project_id)
 # publisher = pubsub_v1.PublisherClient()
-datastore_client = datastore.Client(project_id)
+# datastore_client = datastore.Client(project_id)
 
 
 def recorded_voice_create(request):
 
-    request_json = request.get_json(silent=True)
+    # request_json = request.get_json(silent=True)
     # filename = request_json['name']
-    print(request_json)
-    wav_file = request.files['audio_data']
-    bucket = storage_client.get_bucket(RESULT_BUCKET)
-    blob = bucket.blob()
-    blob.upload_from_file(wav_file)
+    # print(request_json)
+    # wav_file = request.files['audio_data']
+    # bucket = storage_client.get_bucket(RESULT_BUCKET)
+    # blob = bucket.blob()
+    # blob.upload_from_file(wav_file)
 
-    request_json['voiceUrl'] = 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename)
+    # request_json['voiceUrl'] = 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename)
 
     # print(filename)
 
-    with datastore_client.transaction():
-        incomplete_key = datastore_client.key('RecordedVoice')
-        user = datastore.Entity(key=incomplete_key)
-        user.update(request_json)
-        datastore_client.put(user)
+    # with datastore_client.transaction():
+    #     incomplete_key = datastore_client.key('RecordedVoice')
+    #     user = datastore.Entity(key=incomplete_key)
+    #     user.update(request_json)
+    #     datastore_client.put(user)
 
     # message = request_json
     # message_data = json.dumps(message).encode('utf-8')
