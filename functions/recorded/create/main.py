@@ -33,11 +33,11 @@ def recorded_voice_create(request):
         user.update(request_json)
         datastore_client.put(user)
 
-    message = request_json
-    message_data = json.dumps(message).encode('utf-8')
-    topic_path = publisher.topic_path(project_id, COMPARE_TOPIC)
-    future = publisher.publish(topic_path, data=message_data)
-    future.result()
+    # message = request_json
+    # message_data = json.dumps(message).encode('utf-8')
+    # topic_path = publisher.topic_path(project_id, COMPARE_TOPIC)
+    # future = publisher.publish(topic_path, data=message_data)
+    # future.result()
 
     # firebase interaction for authentication
     # register and save in database/firestore user object
