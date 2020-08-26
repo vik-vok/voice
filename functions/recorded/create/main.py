@@ -8,9 +8,9 @@ project_id = 'speech-similarity'
 RESULT_BUCKET = "recorded-voices"
 COMPARE_TOPIC = "compare-topic"
 
-storage_client = storage.Client(project_id)
-publisher = pubsub_v1.PublisherClient()
-datastore_client = datastore.Client(project_id)
+storage_client = storage.Client()
+# publisher = pubsub_v1.PublisherClient()
+# datastore_client = datastore.Client(project_id)
 
 
 def recorded_voice_create(request):
@@ -27,11 +27,11 @@ def recorded_voice_create(request):
 
     print(filename)
 
-    with datastore_client.transaction():
-        incomplete_key = datastore_client.key('RecordedVoice')
-        user = datastore.Entity(key=incomplete_key)
-        user.update(request_json)
-        datastore_client.put(user)
+    # with datastore_client.transaction():
+    #     incomplete_key = datastore_client.key('RecordedVoice')
+    #     user = datastore.Entity(key=incomplete_key)
+    #     user.update(request_json)
+    #     datastore_client.put(user)
 
     # message = request_json
     # message_data = json.dumps(message).encode('utf-8')
