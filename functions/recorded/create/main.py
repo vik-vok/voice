@@ -1,8 +1,8 @@
 import json
 import logging
-# from google.cloud import datastore
+from google.cloud import datastore
 from google.cloud import storage
-# from google.cloud import pubsub_v1
+from google.cloud import pubsub_v1
 
 project_id = 'speech-similarity'
 RESULT_BUCKET = "recorded-voices"
