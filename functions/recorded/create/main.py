@@ -1,12 +1,12 @@
 import json
-
-from google.cloud import datastore
+import logging
+# from google.cloud import datastore
 from google.cloud import storage
-from google.cloud import pubsub_v1
+# from google.cloud import pubsub_v1
 
-project_id = 'speech-similarity'
+# project_id = 'speech-similarity'
 RESULT_BUCKET = "recorded-voices"
-COMPARE_TOPIC = "compare-topic"
+# COMPARE_TOPIC = "compare-topic"
 
 storage_client = storage.Client()
 # publisher = pubsub_v1.PublisherClient()
@@ -14,16 +14,25 @@ storage_client = storage.Client()
 
 
 def recorded_voice_create(request):
-
-    request_json = request.get_json(silent=True)
-    filename = request_json['name']
-    # print(request_json)
+    # check if the post request has the file part
+    if 'audio_data' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+        
     wav_file = request.files['audio_data']
+    # if user does not select file, browser also
+    # submit an empty part without filename
+    if wav_file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+    filename = wav_file.filename
+    # print(request_json)
     bucket = storage_client.get_bucket(RESULT_BUCKET)
-    blob = bucket.blob()
+    blob = bucket.blob(filename)
     blob.upload_from_file(wav_file)
 
-    request_json['voiceUrl'] = 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename)
+    voice = {'filename': filename}
+    voice['voiceUrl'] = 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename)
 
     print(filename)
 
