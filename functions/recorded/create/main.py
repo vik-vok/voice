@@ -9,7 +9,7 @@ RESULT_BUCKET = "recorded-voices"
 COMPARE_TOPIC = "compare-topic"
 
 storage_client = storage.Client(project_id)
-publisher = pubsub_v1.PublisherClient()
+# publisher = pubsub_v1.PublisherClient()
 datastore_client = datastore.Client(project_id)
 
 
@@ -25,7 +25,7 @@ def recorded_voice_create(request):
 
     request_json['voiceUrl'] = 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename)
 
-    print(filename)
+    # print(filename)
 
     with datastore_client.transaction():
         incomplete_key = datastore_client.key('RecordedVoice')
