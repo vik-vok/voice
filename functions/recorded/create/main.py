@@ -4,13 +4,13 @@ import logging
 from google.cloud import storage
 # from google.cloud import pubsub_v1
 
-# project_id = 'speech-similarity'
+project_id = 'speech-similarity'
 RESULT_BUCKET = "recorded-voices"
-# COMPARE_TOPIC = "compare-topic"
+COMPARE_TOPIC = "compare-topic"
 
 storage_client = storage.Client()
-# publisher = pubsub_v1.PublisherClient()
-# datastore_client = datastore.Client(project_id)
+publisher = pubsub_v1.PublisherClient()
+datastore_client = datastore.Client(project_id)
 
 
 def recorded_voice_create(request):
@@ -36,17 +36,17 @@ def recorded_voice_create(request):
 
     print(filename)
 
-    # with datastore_client.transaction():
-    #     incomplete_key = datastore_client.key('RecordedVoice')
-    #     user = datastore.Entity(key=incomplete_key)
-    #     user.update(request_json)
-    #     datastore_client.put(user)
+    with datastore_client.transaction():
+        incomplete_key = datastore_client.key('RecordedVoice')
+        user = datastore.Entity(key=incomplete_key)
+        user.update(request_json)
+        datastore_client.put(user)
 
-    # message = request_json
-    # message_data = json.dumps(message).encode('utf-8')
-    # topic_path = publisher.topic_path(project_id, COMPARE_TOPIC)
-    # future = publisher.publish(topic_path, data=message_data)
-    # future.result()
+    message = request_json
+    message_data = json.dumps(message).encode('utf-8')
+    topic_path = publisher.topic_path(project_id, COMPARE_TOPIC)
+    future = publisher.publish(topic_path, data=message_data)
+    future.result()
 
     # firebase interaction for authentication
     # register and save in database/firestore user object
