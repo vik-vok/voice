@@ -39,10 +39,10 @@ def recorded_voice_create(request):
     with datastore_client.transaction():
         incomplete_key = datastore_client.key('RecordedVoice')
         user = datastore.Entity(key=incomplete_key)
-        user.update(request_json)
+        user.update(voice)
         datastore_client.put(user)
 
-    message = request_json
+    message = voice
     message_data = json.dumps(message).encode('utf-8')
     topic_path = publisher.topic_path(project_id, COMPARE_TOPIC)
     future = publisher.publish(topic_path, data=message_data)
