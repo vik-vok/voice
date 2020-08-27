@@ -25,4 +25,5 @@ def original_voice_comments(request):
     #     user = requests.get(USERS_URL.format(user_id))
     #     comments_json[i]['userID'] = user
     #     print(user)
-    return json.dumps(comments_json)
+    return "aeee"
+    # return json.dumps(comments_json)
