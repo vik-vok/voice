@@ -15,7 +15,7 @@ def original_voice_comments(request):
     else:
         # return error apiresponse
         return ""
-
+    print("bla")
     comments_json = requests.get(COMMENTS_URL.format(voice_id))
     print(comments_json)
     for i, comment in enumerate(comments_json):
