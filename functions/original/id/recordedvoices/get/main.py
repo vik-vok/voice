@@ -1,7 +1,7 @@
 import json
 
 
-def original_voice_voices(request):
+def original_voice_recorded_voices(request):
     result = [{
         "id": 132,
         "parentid": 14,

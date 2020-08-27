@@ -9,6 +9,8 @@ array=(
   'voice-original-delete':'original_voice_delete':'functions/original/id/delete'
   'voice-original-get':'original_voice_get':'functions/original/id/get'
   'voice-original-update':'original_voice_update':'functions/original/id/update'
+  'voice-original-comments':'original_voice_comments':'functions/original/id/comments/get'
+  'voice-original-recorded-voices':'original_voice_recorded_voices':'functions/original/id/recordedvoices'
 
   'voice-recorded-get-all':'recorded_voice_get_all':'functions/recorded/all'
   'voice-recorded-create':'recorded_voice_create':'functions/recorded/create'
