@@ -8,14 +8,14 @@ def recorded_voice_get(request):
     request_json = request.get_json(silent=True)
     request_args = request.args
     if request_json and 'voiceId' in request_json:
-        user_id = request_json['voiceId']
+        voice_id = request_json['voiceId']
     elif request_args and 'voiceId' in request_args:
-        user_id = int(request_args['voiceId'])
+        voice_id = int(request_args['voiceId'])
     else:
         # return error apiresponse
         return ""
 
-    key = client.key('RecordedVoice', user_id)
-    user = client.get(key)
+    key = client.key('RecordedVoice', voice_id)
+    voice = client.get(key)
 
-    return json.dumps(user)
+    return json.dumps(voice)

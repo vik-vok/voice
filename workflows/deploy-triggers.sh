@@ -10,12 +10,13 @@ array=(
   'voice-original-get':'original_voice_get':'functions/original/id/get'
   'voice-original-update':'original_voice_update':'functions/original/id/update'
   'voice-original-comments':'original_voice_comments':'functions/original/id/comments/get'
-  'voice-original-recorded-voices':'original_voice_recorded_voices':'functions/original/id/recordedvoices'
+  'voice-original-voices':'original_voice_recorded_voices':'functions/original/id/recordedvoices/get'
 
   'voice-recorded-get-all':'recorded_voice_get_all':'functions/recorded/all'
   'voice-recorded-create':'recorded_voice_create':'functions/recorded/create'
   'voice-recorded-delete':'recorded_voice_delete':'functions/recorded/id/delete'
   'voice-recorded-get':'recorded_voice_get':'functions/recorded/id/get'
+  'voice-recorded-by-original':'recorded_voice_original_get':'functions/recorded/parent/get'
 )
 
 for i in "${array[@]}"; do

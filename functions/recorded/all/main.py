@@ -6,4 +6,12 @@ datastore_client = datastore.Client('speech-similarity')
 
 def recorded_voice_get_all(request):
     query = datastore_client.query(kind='RecordedVoice')
-    return json.dump(list(query.fetch()))
+    results = list(query.fetch())
+
+    query.keys_only()
+    keys = list(query.fetch())
+
+    for i in range(len(results)):
+        results[i]['id'] = keys[i].id
+
+    return json.dumps(results)
