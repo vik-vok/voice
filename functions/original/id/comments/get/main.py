@@ -1,8 +1,8 @@
 import json
 import requests
 
-COMMENTS_URL = 'vikvok-anldg2io3q-ew.a.run.app/comments/original/{}'
-USERS_URL = 'vikvok-anldg2io3q-ew.a.run.app/users/{}'
+COMMENTS_URL = 'https://vikvok-anldg2io3q-ew.a.run.app/comments/original/{}'
+USERS_URL = 'https://vikvok-anldg2io3q-ew.a.run.app/users/{}'
 
 
 def original_voice_comments(request):
