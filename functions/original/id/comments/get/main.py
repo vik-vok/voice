@@ -15,15 +15,12 @@ def original_voice_comments(request):
     else:
         # return error apiresponse
         return ""
-    print("bla")
-    # comments_json = {}
+
     comments_json = requests.get(COMMENTS_URL.format(voice_id)).json()
-    # print(comments_json.json())
     for i, comment in enumerate(comments_json):
         user_id = comment['userID']
-        print(user_id)
         user = requests.get(USERS_URL.format(user_id)).json()
-        comments_json[i]['userID'] = user
-        print(user)
-    # return "aeee"
+        del comments_json[i]['userID']
+        comments_json[i]['user'] = user
+
     return json.dumps(comments_json)
