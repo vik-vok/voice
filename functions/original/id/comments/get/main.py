@@ -18,7 +18,7 @@ def original_voice_comments(request):
     print("bla")
     comments_json = {}
     comments_json = requests.get(COMMENTS_URL.format(voice_id))
-    print(comments_json)
+    print(comments_json.json())
     # for i, comment in enumerate(comments_json):
     #     user_id = comment['userID']
     #     print(user_id)
