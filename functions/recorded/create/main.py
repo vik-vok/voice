@@ -42,7 +42,7 @@ def recorded_voice_create(request):
         incomplete_key = datastore_client.key('RecordedVoice')
         user = datastore.Entity(key=incomplete_key)
         user.update(voice)
-        datastore_client.put(user)
+        print(datastore_client.put(user))
 
     message = voice
     message_data = json.dumps(message).encode('utf-8')
@@ -52,4 +52,4 @@ def recorded_voice_create(request):
 
     # firebase interaction for authentication
     # register and save in database/firestore user object
-    return "Voice successfully registered"
+    return message
