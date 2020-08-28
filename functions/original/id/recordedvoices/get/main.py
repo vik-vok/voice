@@ -14,9 +14,10 @@ def original_voice_recorded_voices(request):
         voice_id = request_args['voiceId']
     else:
         # error
-        return ""
+        return "voiceId not found!"
 
     voices_json = requests.get(RECORDED_VOICES_URL.format(voice_id)).json()
+    print(voices_json)
     for i, voice in enumerate(voices_json):
         user_id = voice['userId']
         user = requests.get(USERS_URL.format(user_id)).json()
