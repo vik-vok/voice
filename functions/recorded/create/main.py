@@ -52,4 +52,4 @@ def recorded_voice_create(request):
 
     # firebase interaction for authentication
     # register and save in database/firestore user object
-    return message
+    return message_data
