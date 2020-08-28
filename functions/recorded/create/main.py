@@ -32,16 +32,8 @@ def recorded_voice_create(request):
     bucket = storage_client.get_bucket(RESULT_BUCKET)
     blob = bucket.blob(filename)
     blob.upload_from_file(wav_file)
-
-
-    print(request_json)
-    print(request.data)
-    print(request.form)
-    print(request.args)
     
-    
-    
-    voice = {'filename': filename}
+    voice = {'filename': filename, **request.form}
     voice['voiceUrl'] = 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename)
 
     print(filename)
