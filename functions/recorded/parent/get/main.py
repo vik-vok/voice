@@ -12,7 +12,7 @@ def recorded_voice_original_get(request):
     elif request_args and 'parentId' in request_args:
         parent_id = int(request_args['parentId'])
     else:
-        # return error apiresponse
+        # error
         return ""
 
     query = client.query(kind='RecordedVoice')

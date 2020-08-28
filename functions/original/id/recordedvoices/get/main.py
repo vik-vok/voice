@@ -13,7 +13,7 @@ def original_voice_recorded_voices(request):
     elif request_args and 'voiceId' in request_args:
         voice_id = request_args['voiceId']
     else:
-        # return error apiresponse
+        # error
         return ""
 
     voices_json = requests.get(RECORDED_VOICES_URL.format(voice_id)).json()
