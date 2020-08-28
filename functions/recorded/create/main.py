@@ -15,6 +15,8 @@ datastore_client = datastore.Client(project_id)
 
 def recorded_voice_create(request):
     # check if the post request has the file part
+    request_json = request.get_json(silent=True)
+
     if 'audio_data' not in request.files:
         flash('No file part')
         return redirect(request.url)
@@ -31,7 +33,7 @@ def recorded_voice_create(request):
     blob = bucket.blob(filename)
     blob.upload_from_file(wav_file)
 
-    voice = {'filename': filename}
+    voice = {'filename': filename, **request_json}
     voice['voiceUrl'] = 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename)
 
     print(filename)
