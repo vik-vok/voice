@@ -15,6 +15,7 @@ def recorded_voice_original_get(request):
         # error
         return "parentId Not Found in request"
 
+    print(parent_id)
     query = client.query(kind='RecordedVoice')
     query.add_filter('parentId', '=',str(parent_id))
     # query.order = ['']
