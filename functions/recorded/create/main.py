@@ -30,7 +30,7 @@ def recorded_voice_create(request):
     filename = wav_file.filename
     # print(request_json)
     bucket = storage_client.get_bucket(RESULT_BUCKET)
-    blob = bucket.blob(filename)
+    blob = bucket.blob(filename+'.wav')
     blob.upload_from_file(wav_file)
     
     voice = {'filename': filename, **request.form}
