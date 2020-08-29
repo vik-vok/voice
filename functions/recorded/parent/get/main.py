@@ -27,4 +27,4 @@ def recorded_voice_original_get(request):
     for i in range(len(results)):
         results[i]['recordedVoiceId'] = keys[i].id
 
-    return json.dumps(results)
+    return json.dumps(results, indent=4, sort_keys=True, default=str)
