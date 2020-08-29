@@ -36,31 +36,29 @@ def recorded_voice_create(request):
     
     voice = {'filename': filename,
              'voiceUrl': 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename),
-             'created': datetime.datetime.utcnow()}
+             }#'created': datetime.datetime.utcnow()}
+
+    with datastore_client.transaction():
+        incomplete_key = datastore_client.key('RecordedVoice')
+        user = datastore.Entity(key=incomplete_key)
+        user.update(voice)
+        datastore_client.put(user)
+
+    query = datastore_client.query(kind='RecordedVoice')
+    query.add_filter('voiceUrl', '=', voice['voiceUrl'])
+    results = list(query.fetch())
+    if len(results) > 0:
+        voice['recordedVoiceId'] = results[0].key.id_or_name
+    else:
+        return redirect(request.url)
 
     print(voice)
-
-    # with datastore_client.transaction():
-    #     incomplete_key = datastore_client.key('RecordedVoice')
-    #     user = datastore.Entity(key=incomplete_key)
-    #     user.update(voice)
-    #     datastore_client.put(user)
-    #
-    # query = datastore_client.query(kind='RecordedVoice')
-    # query.add_filter('voiceUrl', '=', voice['voiceUrl'])
-    # results = list(query.fetch())
-    # if len(results) > 0:
-    #     voice['recordedVoiceId'] = results[0].key.id_or_name
-    # else:
-    #     return redirect(request.url)
-
-    print(voice)
-    # message = voice
-    # message_data = json.dumps(message).encode('utf-8')
-    # topic_path = publisher.topic_path(project_id, COMPARE_TOPIC)
-    # future = publisher.publish(topic_path, data=message_data)
-    # future.result()
+    message = voice
+    message_data = json.dumps(message).encode('utf-8')
+    topic_path = publisher.topic_path(project_id, COMPARE_TOPIC)
+    future = publisher.publish(topic_path, data=message_data)
+    future.result()
 
     # firebase interaction for authentication
     # register and save in database/firestore user object
-    return 'message_data'
+    return message_data
