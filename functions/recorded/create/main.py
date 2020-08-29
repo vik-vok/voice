@@ -1,5 +1,6 @@
 import json
 import logging
+import datetime
 from google.cloud import datastore
 from google.cloud import storage
 from google.cloud import pubsub_v1
@@ -35,6 +36,7 @@ def recorded_voice_create(request):
     
     voice = {'filename': filename, **request.form}
     voice['voiceUrl'] = 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename)
+    voice['created'] = datetime.datetime.utcnow(),
 
     # print(filename)
 
