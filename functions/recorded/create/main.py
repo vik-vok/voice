@@ -43,9 +43,15 @@ def recorded_voice_create(request):
         user = datastore.Entity(key=incomplete_key)
         user.update(voice)
         datastore_client.put(user)
-        print(user)
-        voice['recordedVoiceId'] = user.key
-    
+
+    query = datastore_client.query(kind='RecordedVoice')
+    query.add_filter('voiceUrl', '=', voice['voiceUrl'])
+    results = list(query.fetch())
+    if len(results) > 0:
+        voice['recordedVoiceId'] = results[0].key.id_or_name
+    else:
+        return redirect(request.url)
+
     message = voice
     message_data = json.dumps(message).encode('utf-8')
     topic_path = publisher.topic_path(project_id, COMPARE_TOPIC)
