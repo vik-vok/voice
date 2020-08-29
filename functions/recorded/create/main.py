@@ -38,21 +38,21 @@ def recorded_voice_create(request):
     voice['voiceUrl'] = 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename)
     voice['created'] = datetime.datetime.utcnow()
 
-    # print(filename)
+    print(voice)
 
-    with datastore_client.transaction():
-        incomplete_key = datastore_client.key('RecordedVoice')
-        user = datastore.Entity(key=incomplete_key)
-        user.update(voice)
-        datastore_client.put(user)
-
-    query = datastore_client.query(kind='RecordedVoice')
-    query.add_filter('voiceUrl', '=', voice['voiceUrl'])
-    results = list(query.fetch())
-    if len(results) > 0:
-        voice['recordedVoiceId'] = results[0].key.id_or_name
-    else:
-        return redirect(request.url)
+    # with datastore_client.transaction():
+    #     incomplete_key = datastore_client.key('RecordedVoice')
+    #     user = datastore.Entity(key=incomplete_key)
+    #     user.update(voice)
+    #     datastore_client.put(user)
+    #
+    # query = datastore_client.query(kind='RecordedVoice')
+    # query.add_filter('voiceUrl', '=', voice['voiceUrl'])
+    # results = list(query.fetch())
+    # if len(results) > 0:
+    #     voice['recordedVoiceId'] = results[0].key.id_or_name
+    # else:
+    #     return redirect(request.url)
 
     print(voice)
     message = voice
