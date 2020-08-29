@@ -52,6 +52,7 @@ def recorded_voice_create(request):
     else:
         return redirect(request.url)
 
+    print(voice)
     message = voice
     message_data = json.dumps(message).encode('utf-8')
     topic_path = publisher.topic_path(project_id, COMPARE_TOPIC)
