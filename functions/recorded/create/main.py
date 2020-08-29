@@ -28,15 +28,15 @@ def recorded_voice_create(request):
     if wav_file.filename == '':
         flash('No selected file')
         return redirect(request.url)
+
     filename = wav_file.filename
-    # print(request_json)
     bucket = storage_client.get_bucket(RESULT_BUCKET)
     blob = bucket.blob(filename+'.wav')
     blob.upload_from_file(wav_file)
     
-    voice = {'filename': filename, **request.form}
-    voice['voiceUrl'] = 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename)
-    voice['created'] = datetime.datetime.utcnow()
+    voice = {'filename': filename,
+             'voiceUrl': 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename),
+             'created': datetime.datetime.utcnow()}
 
     print(voice)
 
@@ -55,11 +55,11 @@ def recorded_voice_create(request):
     #     return redirect(request.url)
 
     print(voice)
-    message = voice
-    message_data = json.dumps(message).encode('utf-8')
-    topic_path = publisher.topic_path(project_id, COMPARE_TOPIC)
-    future = publisher.publish(topic_path, data=message_data)
-    future.result()
+    # message = voice
+    # message_data = json.dumps(message).encode('utf-8')
+    # topic_path = publisher.topic_path(project_id, COMPARE_TOPIC)
+    # future = publisher.publish(topic_path, data=message_data)
+    # future.result()
 
     # firebase interaction for authentication
     # register and save in database/firestore user object
