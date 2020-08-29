@@ -36,14 +36,14 @@ def recorded_voice_create(request):
     voice = {'filename': filename, **request.form}
     voice['voiceUrl'] = 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename)
 
-    print(filename)
+    # print(filename)
 
     with datastore_client.transaction():
         incomplete_key = datastore_client.key('RecordedVoice')
         user = datastore.Entity(key=incomplete_key)
         user.update(voice)
         datastore_client.put(user)
-        # print(user)
+        print(user)
         voice['voiceId'] = user.key
     #
     # message = voice
