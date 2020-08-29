@@ -12,6 +12,6 @@ def recorded_voice_get_all(request):
     keys = list(query.fetch())
 
     for i in range(len(results)):
-        results[i]['voiceId'] = keys[i].id
+        results[i]['recordedVoiceId'] = keys[i].id
 
     return json.dumps(results)

@@ -7,17 +7,17 @@ client = datastore.Client('speech-similarity')
 def recorded_voice_original_get(request):
     request_json = request.get_json(silent=True)
     request_args = request.args
-    if request_json and 'parentId' in request_json:
-        parent_id = request_json['parentId']
-    elif request_args and 'parentId' in request_args:
-        parent_id = request_args['parentId']
+    if request_json and 'originalVoiceId' in request_json:
+        parent_id = request_json['originalVoiceId']
+    elif request_args and 'originalVoiceId' in request_args:
+        parent_id = request_args['originalVoiceId']
     else:
         # error
-        return "parentId Not Found in request"
+        return "originalVoiceId Not Found in request"
 
     print(parent_id)
     query = client.query(kind='RecordedVoice')
-    query.add_filter('parentId', '=',str(parent_id))
+    query.add_filter('originalVoiceId', '=',str(parent_id))
     # query.order = ['']
     results = list(query.fetch())
     print(results)
@@ -25,6 +25,6 @@ def recorded_voice_original_get(request):
     keys = list(query.fetch())
 
     for i in range(len(results)):
-        results[i]['id'] = keys[i].id
+        results[i]['recordedVoiceId'] = keys[i].id
 
     return json.dumps(results)

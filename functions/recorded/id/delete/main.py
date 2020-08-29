@@ -8,10 +8,10 @@ def recorded_voice_delete(request):
     request_json = request.get_json(silent=True)
     request_args = request.args
 
-    if request_json and "voiceId" in request_json:
-        user_id = request_json["voiceId"]
-    elif request_args and "voiceId" in request_args:
-        user_id = int(request_args["voiceId"])
+    if request_json and "recordedVoiceId" in request_json:
+        user_id = request_json["recordedVoiceId"]
+    elif request_args and "recordedVoiceId" in request_args:
+        user_id = int(request_args["recordedVoiceId"])
     else:
         #return error api response
         return ""
