@@ -17,9 +17,9 @@ def recorded_voice_create(request):
     # check if the post request has the file part
     request_json = request.get_json(silent=True)
 
-    # if 'audio_data' not in request.files:
-        # flash('No file part')
-        # return redirect(request.url)
+    if 'audio_data' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
         
     wav_file = request.files['audio_data']
     # if user does not select file, browser also
@@ -49,8 +49,8 @@ def recorded_voice_create(request):
     results = list(query.fetch())
     if len(results) > 0:
         voice['recordedVoiceId'] = results[0].key.id_or_name
-    # else:
-    #     return redirect(request.url)
+    else:
+        return redirect(request.url)
 
     print(voice)
     message = voice
