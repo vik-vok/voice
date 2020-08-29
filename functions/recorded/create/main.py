@@ -18,7 +18,7 @@ def recorded_voice_create(request):
     request_json = request.get_json(silent=True)
 
     if 'audio_data' not in request.files:
-        flash('No file part')
+        # flash('No file part')
         return redirect(request.url)
         
     wav_file = request.files['audio_data']
