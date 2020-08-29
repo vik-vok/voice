@@ -28,15 +28,17 @@ def recorded_voice_create(request):
     if wav_file.filename == '':
         flash('No selected file')
         return redirect(request.url)
-
     filename = wav_file.filename
+
     bucket = storage_client.get_bucket(RESULT_BUCKET)
     blob = bucket.blob(filename+'.wav')
     blob.upload_from_file(wav_file)
     
     voice = {'filename': filename,
              'voiceUrl': 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename),
-             }#'created': datetime.datetime.utcnow()}
+             **request.form}
+    # 'created': datetime.datetime.utcnow()
+
 
     with datastore_client.transaction():
         incomplete_key = datastore_client.key('RecordedVoice')
