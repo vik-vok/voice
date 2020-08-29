@@ -38,13 +38,13 @@ def recorded_voice_create(request):
 
     print(filename)
 
-    # with datastore_client.transaction():
-    #     incomplete_key = datastore_client.key('RecordedVoice')
-    #     user = datastore.Entity(key=incomplete_key)
-    #     user.update(voice)
-    #     datastore_client.put(user)
-    #     print(user)
-    #     voice['voiceId'] = user.key
+    with datastore_client.transaction():
+        incomplete_key = datastore_client.key('RecordedVoice')
+        user = datastore.Entity(key=incomplete_key)
+        user.update(voice)
+        datastore_client.put(user)
+        # print(user)
+        voice['voiceId'] = user.key
     #
     # message = voice
     # message_data = json.dumps(message).encode('utf-8')
