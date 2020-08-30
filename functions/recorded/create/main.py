@@ -1,6 +1,6 @@
 import json
-import logging
-import datetime
+
+from flask import flash, redirect
 from google.cloud import datastore
 from google.cloud import storage
 from google.cloud import pubsub_v1
@@ -21,7 +21,7 @@ def recorded_voice_create(request):
     if 'audio_data' not in request.files:
         flash('No file part')
         return redirect(request.url)
-        
+
     wav_file = request.files['audio_data']
     # if user does not select file, browser also
     # submit an empty part without filename
@@ -31,14 +31,13 @@ def recorded_voice_create(request):
     filename = wav_file.filename
 
     bucket = storage_client.get_bucket(RESULT_BUCKET)
-    blob = bucket.blob(filename+'.wav')
+    blob = bucket.blob(filename + '.wav')
     blob.upload_from_file(wav_file)
-    
+
     voice = {'filename': filename,
              'voiceUrl': 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename),
              **request.form}
     # 'created': datetime.datetime.utcnow()
-
 
     with datastore_client.transaction():
         incomplete_key = datastore_client.key('RecordedVoice')
