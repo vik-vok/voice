@@ -1,29 +1,53 @@
+import json
+
+from flask import flash, redirect
 from google.cloud import datastore
 from google.cloud import storage
 
 storage_client = storage.Client()
 datastore_client = datastore.Client('speech-similarity')
 RESULT_BUCKET = "original-voices"
+KIND = "OriginalVoice"
 
 
 def original_voice_create(request):
+    # 1. Validate that file exists
+    if 'audio_data' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
 
-    # error handling is missing
+    # 2. get audio file
+    wav_file = request.files['audio_data']
+    if wav_file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+    filename = wav_file.filename
 
-    request_json = request.get_json(silent=True)
-    filename = request_json['name']
-    # wav_file = request.files['audio_data']
-    # bucket = storage_client.get_bucket(RESULT_BUCKET)
-    # blob = bucket.blob()
-    # blob.upload_from_file(wav_file)
+    # 3. Upload file in the bucket
+    bucket = storage_client.get_bucket(RESULT_BUCKET)
+    blob = bucket.blob(filename + '.wav')
+    blob.upload_from_file(wav_file)
 
-    request_json['voiceUrl'] = 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename)
-
+    # 4. Store data in the OriginalVoice Datastore
+    voice = {'filename': filename,
+             'voiceUrl': 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename),
+             **request.form}
     with datastore_client.transaction():
-        incomplete_key = datastore_client.key('OriginalVoice')
+        incomplete_key = datastore_client.key(KIND)
         user = datastore.Entity(key=incomplete_key)
-        user.update(request_json)
+        user.update(voice)
         datastore_client.put(user)
 
-    return "Voice successfully created"
+    # 5. Query for ID
+    query = datastore_client.query(kind=KIND)
+    query.add_filter('voiceUrl', '=', voice['voiceUrl'])
+    results = list(query.fetch())
+    if len(results) > 0:
+        voice['recordedVoiceId'] = results[0].key.id_or_name
+    else:
+        return redirect(request.url)
 
+    # 6. Dump and return JSON
+    message = voice
+    message_data = json.dumps(message).encode('utf-8')
+    return message_data
