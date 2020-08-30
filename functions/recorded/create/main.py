@@ -1,4 +1,5 @@
 import json
+import datetime
 
 from flask import flash, redirect
 from google.cloud import datastore
@@ -36,8 +37,8 @@ def recorded_voice_create(request):
 
     voice = {'filename': filename,
              'voiceUrl': 'https://storage.googleapis.com/{}/{}.wav'.format(RESULT_BUCKET, filename),
-             **request.form}
-    # 'created': datetime.datetime.utcnow()
+             **request.form,
+             'created': str(datetime.datetime.utcnow())}
 
     with datastore_client.transaction():
         incomplete_key = datastore_client.key('RecordedVoice')
@@ -59,7 +60,4 @@ def recorded_voice_create(request):
     topic_path = publisher.topic_path(project_id, COMPARE_TOPIC)
     future = publisher.publish(topic_path, data=message_data)
     future.result()
-
-    # firebase interaction for authentication
-    # register and save in database/firestore user object
     return message_data
