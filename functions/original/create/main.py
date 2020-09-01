@@ -47,11 +47,18 @@ def original_voice_create(request):
     query.add_filter("voiceUrl", "=", voice["voiceUrl"])
     results = list(query.fetch())
     if len(results) > 0:
-        voice["recordedVoiceId"] = results[0].key.id_or_name
+        voice["originalVoiceId"] = results[0].key.id_or_name
     else:
         return redirect(request.url)
 
     # 6. Dump and return JSON
     message = voice
     message_data = json.dumps(message).encode("utf-8")
-    return message_data
+    
+    headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type'
+    }
+
+    return message_data, 200, headers
