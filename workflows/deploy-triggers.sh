@@ -16,6 +16,7 @@ array=(
   'voice-recorded-delete':'recorded_voice_delete':'functions/recorded/id/delete'
   'voice-recorded-get':'recorded_voice_get':'functions/recorded/id/get'
   'voice-recorded-by-original':'recorded_voice_original_get':'functions/recorded/parent/get'
+  'voice-recorded-by-user-original':'recored_voice_user_original':'functions/recorded/user/originalvoice'
 )
 
 for i in "${array[@]}"; do
