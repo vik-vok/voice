@@ -16,7 +16,12 @@ def original_voice_get(request):
         return ""
 
     key = client.key('OriginalVoice', voice_id)
-    user = client.get(key)
+    voice = client.get(key)
     
-    user['originalVoiceId'] = voice_id
-    return json.dumps(user)
+    with client.transaction():
+        voice['views'] += 1
+        voice.update(voice)
+        client.put(voice)
+    
+    voice['originalVoiceId'] = voice_id
+    return json.dumps(voice)
