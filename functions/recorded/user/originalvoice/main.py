@@ -1,3 +1,4 @@
+from pprint import pprint as print
 import json
 from google.cloud import datastore
 
@@ -41,4 +42,4 @@ def recored_voice_user_original(request):
         results[i]['recordedVoiceId'] = keys[i].id
     
     results = sorted(results, key=lambda voice: -voice.get('views', 0))
-    return json.dumps(results)
+    return json.dumps(results, sort_keys=True, default=str)
