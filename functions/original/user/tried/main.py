@@ -1,5 +1,6 @@
 import json
 from google.cloud import datastore
+from pprint import pprint as print
 
 datastore_client = datastore.Client("speech-similarity")
 
@@ -20,11 +21,15 @@ def original_voice_user_tried(request):
     query = datastore_client.query(kind="RecordedVoice")
     query.add_filter("userId", "=", userId)
     results = list(query.fetch())
-    raw_keys = [x["originalVoiceId"] for x in results]
+    raw_keys = list(set([x["originalVoiceId"] for x in results]))
 
     # 2.2 Fetch unique original voices
+    results = []
     keys = [datastore_client.key("OriginalVoice", int(x)) for x in raw_keys]
-    results = list(datastore_client.get_multi(keys))
+    for key in keys:
+        originalVoice = datastore_client.get(key)
+        originalVoice['originalVoiceId'] = key.id
+        results.append(originalVoice)
 
     # 3. return unique original voices that was recorded by given user
     return json.dumps(results, indent=4, sort_keys=True, default=str)
