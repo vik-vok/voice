@@ -33,16 +33,22 @@ def original_voice_create(request):
     voice = {
         "name": request.form.get("name"),
         "path": path,
+        "userId": request.form.get("userId"),
         "avatar": request.form.get("avatar"),
         "views": 0,
     }
-    with datastore_client.transaction():
-        incomplete_key = datastore_client.key(KIND)
-        user = datastore.Entity(key=incomplete_key)
-        user.update(voice)
-        datastore_client.put(user)
 
-    # 5. Query for ID
+    # 5. Update View Count
+    try:
+        with datastore_client.transaction():
+            incomplete_key = datastore_client.key(KIND)
+            user = datastore.Entity(key=incomplete_key)
+            user.update(voice)
+            datastore_client.put(user)
+    except:
+        pass
+
+    # 6. Query for ID
     query = datastore_client.query(kind=KIND)
     query.add_filter("path", "=", voice["path"])
     results = list(query.fetch())
@@ -51,14 +57,8 @@ def original_voice_create(request):
     else:
         return redirect(request.url)
 
-    # 6. Dump and return JSON
+    # 7. Dump and return JSON
     message = voice
     message_data = json.dumps(message).encode("utf-8")
-    
-    headers = {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type'
-    }
 
     return message_data, 200, headers
