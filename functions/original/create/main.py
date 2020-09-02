@@ -44,7 +44,7 @@ def original_voice_create(request):
 
     # 5. Query for ID
     query = datastore_client.query(kind=KIND)
-    query.add_filter("voiceUrl", "=", voice["voiceUrl"])
+    query.add_filter("path", "=", voice["path"])
     results = list(query.fetch())
     if len(results) > 0:
         voice["originalVoiceId"] = results[0].key.id_or_name
