@@ -1,32 +1,30 @@
 import json
 from google.cloud import datastore
 
-datastore_client = datastore.Client('speech-similarity')
+datastore_client = datastore.Client("speech-similarity")
 
 
 def original_voice_user_tried(request):
+    # 1. Check if userId field exists
     request_json = request.get_json(silent=True)
     request_args = request.args
-    if request_json and 'userId' in request_json:
-        userId = request_json['userId']
-    elif request_args and 'userId' in request_args:
-        userId = request_args['userId']
+    if request_json and "userId" in request_json:
+        userId = request_json["userId"]
+    elif request_args and "userId" in request_args:
+        userId = request_args["userId"]
     else:
-        return (
-            json.dumps({"error": "Missing parameter: userId"}),
-            422,
-            {})
+        return (json.dumps({"error": "Missing parameter: userId"}), 422, {})
 
-    # fetch data
-    query = datastore_client.query(kind='OriginalVoice')
-    query.add_filter('userId', '=', userId)
+    # 2. Fetch Data
+    # 2.1 Fetch unique original voices keys for recorded voices
+    query = datastore_client.query(kind="RecordedVoice")
+    query.add_filter("userId", "=", userId)
     results = list(query.fetch())
+    raw_keys = [x["originalVoiceId"] for x in results]
 
-    # fetch keys for given data
-    query.keys_only()
-    keys = list(query.fetch())
-    for i in range(len(results)):
-        results[i]['originalVoiceId'] = keys[i].id
+    # 2.2 Fetch unique original voices
+    keys = [datastore_client.key("OriginalVoice", int(x)) for x in raw_keys]
+    results = list(datastore_client.get_multi(keys))
 
-    results = sorted(results, key=lambda voice: -voice.get('views', 0))
-    return json.dumps(results)
+    # 3. return unique original voices that was recorded by given user
+    return json.dumps(results, indent=4, sort_keys=True, default=str)
