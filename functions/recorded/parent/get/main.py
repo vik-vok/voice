@@ -21,10 +21,10 @@ def recorded_voice_original_get(request):
     # query.order = ['']
     results = list(query.fetch())
     print(results)
-    query.keys_only()
-    keys = list(query.fetch())
+    # query.keys_only()
+    # keys = list(query.fetch())
 
     for i in range(len(results)):
-        results[i]['recordedVoiceId'] = keys[i].id
+        results[i]['recordedVoiceId'] = results[i].key.id
 
     return json.dumps(results, indent=4, sort_keys=True, default=str)
